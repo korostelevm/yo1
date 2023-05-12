@@ -1,67 +1,46 @@
 const path = require('path')
 const express = require('express')
 const app = express()
-
-process.env.CYCLIC_DB = 'glamorous-battledress-tickCyclicDB'
-
+const router = express.Router()
 
 
-// const CyclicDb = require('cyclic-dynamodb')
-// let j = CyclicDb.collection('junk')
+
+app.use('/',router)
+router.post('/', (req, res)=>{
+   
+res.send('yo')
+}) 
 
 
-function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
-app.get('/sleep/:secs', async (req,res)=>{
-    console.log(`sleeping ${req.params.secs}`)
-    for(let i=0; i<=(+req.params.secs); i++){
-        console.log(i)
-        await sleep(1000)
-    }
-    
-    
-    return res.send(`slept ${req.params.secs}`)
-})
-app.all('/file',(req,res)=>{
-    res.sendFile(path.resolve(__dirname, "./image.png"));
-})
-
-app.get('/error', async (req,res)=>{
-    throw 'error'
-})
-
-app.all('/', async (req, res) => {
-    console.log(process.env)
-//    let last_req = await j.get('last_req')
-//    await j.set('last_req', req.query)
-
-    res.cookie(`c`,Buffer.from('yo').toString('base64'), { 
-    domain: 'cyclic-app.com',
-    maxAge: 900000, httpOnly: true });
-    
-    console.log("Just got a request!")
-//     res.statusCode = 401
-//     res.setHeader('WWW-Authenticate','Basic')
+router.get('/', (req, res)=>{
+   console.log(req.url)
+    console.log('asdfasdfasf')
+    console.log(Date.now())
+    console.log(req.query)
+       console.log(req.headers)
+   
+      res.setHeader('WWW-Authenticate','Basic')
+      res.setHeader('Access-Control-Allow-Origin','*')
+      res.setHeader('Access-Control-Allow-Methods','*')
+      res.setHeader('Access-Control-Allow-Headers','*')
+      res.setHeader('Access-Control-Allow-Credentials',true)
+   
     return res.json({
-        message: 'main bdddranch1'
+       yo:'yo1',
+       url: req.url
     })
 })
 
-// app.get('/junk', async (req, res)=>{
-//        let last_req = await j.get('last_req')
-//        await j.set('last_req', req.headers)
-//        let props = last_req.props || {}
-//        return res.json({
-//            'user-agent': props['user-agent'],
-//            updated: props.updated
-           
-//        })
-// })
 
-app.get('/ifttt', (req, res)=>{
-console.log('yyyy')
-res.status(200).send('ok')
+router.get('/fs', (req, res)=>{
+   require('fs').writeFileSync('./file.txt', 'asdfasdf')
+   res.send('ok')
 })
+
+router.get('/process_exit', (req, res)=>{
+     process.exit()
+
+})
+
+
 app.listen(3000)
