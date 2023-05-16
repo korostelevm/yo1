@@ -6,8 +6,8 @@ const router = express.Router()
 
 
 app.use('/',router)
-router.post('/', (req, res)=>{
-   
+router.post('/', async (req, res)=>{
+   await new Promise(resolve => setTimeout(resolve, 1000));
 res.send('yo')
 }) 
 
