@@ -13,21 +13,9 @@ res.send('yo')
 
 
 router.get('/', (req, res)=>{
-   console.log(req.url)
-    console.log('asdfasdfasf')
-    console.log(Date.now())
-    console.log(req.query)
-       console.log(req.headers)
-   
-      res.setHeader('WWW-Authenticate','Basic')
-      res.setHeader('Access-Control-Allow-Origin','*')
-      res.setHeader('Access-Control-Allow-Methods','*')
-      res.setHeader('Access-Control-Allow-Headers','*')
-      res.setHeader('Access-Control-Allow-Credentials',true)
-   
+      console.log(req.headers)
     return res.json({
-       yo:'yo1',
-       url: req.url
+       hello:'world'
     })
 })
 
